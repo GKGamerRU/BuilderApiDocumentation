@@ -1,0 +1,28 @@
+div{
+    width: 20px;
+    height: 100%;
+    border-right-color: lime;
+    border-right-width: 3px;
+    background-color: antiquewhite;
+    font-size: 18px;
+    text-indent: 3px;
+    padding-top: 4px;
+    line-height: 1.22;
+    user-select: none;
+}
+textarea{
+    border-left-color: lime;
+    border-left-width: 3px;
+    position: absolute;
+    left: 20px;
+    top: 0px;
+    width: calc(100% - 15px);
+    font-size: 18px;
+    resize: none;
+    overflow: hidden;
+    height: 100%;
+}
+body{
+    margin: 0px;
+    overflow: hidden;
+}

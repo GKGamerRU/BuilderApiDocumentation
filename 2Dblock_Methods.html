@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Builder Api documentation</title>
+</head>
+<body>
+    <div class="Title" >
+        <a href="index.html">Builder API</a>
+    </div>
+    <div class="InfoBlock"> 
+        <h1>Methods</h1>
+        <h3><br></h3>
+        	GetBlocks() - Получает все поставленные блоки. <u>(List of Block)</u><br>
+
+            GetBlockByIDTexture(int id) - можно получить массив блоков по указанному id текстуры. <u>(List of Block)</u><br>
+        
+            GetBlockByID(int id) - можно получить блок с указанным id из массива блоков. <u>(Block)</u><br>
+        
+            GetBlockByName(string name) - можно получить первый по очереди блок по указанному имени из массива блоков. <u>(Block)</u><br>
+        
+            GetBlockByNameArray(string name) - можно получить массив блоков по указанному имени. <u>(IEnumerable of Block)</u><br>
+        
+            GetBlockByModNameArray(string name) - получение объекта по имени мода, из которого блок. <u>(IEnumerable of Block)</u><br>
+        
+            GetGFX() - получает Graphics. <u>(Graphics)</u><br>
+        
+            PaintTable() - Получает панель, в которой на PictureBox рисуются блоки. <u>(Panel)</u><br>
+        
+            LoadPanel() - получает панель загрузки карты. <u>(Panel)</u><br>
+        
+            Form() - Получает форму, в которой запущен 2Д билдер. <u>(Form)</u><br>
+        
+            GetBackground() - Получает текущий BackgroundImage. <u>(Image)</u><br>
+        
+            GetCounter() - Получает зеленый PictureBox. При поставке блоков игра использует его координаты. <u>(Control as PictureBox)</u><br>
+        
+            GetSelectedInventar() - получает выбранный в данный момент инвентарь(слот). <u>(Inventar)</u><br>
+        
+            GetThisBlock() - получает блок, в котором выполнен скрипт. <u>(Block)</u><br>
+        
+            GetCurrentModInfo() - Получает информацию о моде в выбранном в инвентаре блоке. <u>(string)</u><br>
+    </div>
+    <div style="text-align: center; align-self: flex-end; padding-top: 50px; display: list-item; font-size: 18px;">
+        Дополнительная информация:
+        <br>
+        <a href="https://drive.google.com/file/d/1vT4LMmIAFeQCpqWxYpMe1ceqnEcoMRGB/view">Скачать _2Dblock.cs</a><br>
+        <a href="https://www.sites.google.com/view/tobish-inc/lightbox-develop/ltml-builder-api">Tobish Site | APIs</a>
+    </div>
+</body>
+</html>

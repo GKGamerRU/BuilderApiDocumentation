@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Builder Api documentation</title>
+</head>
+<body>
+    <div class="Title" >
+        <a href="index.html">Builder API</a>
+    </div>
+    <div class="InfoBlock"> 
+        <h1>Classes</h1>
+        <h3>Для того, чтобы понимать, что за классы в апи, вот список и их поля:<br><br></h3>
+        	
+    class Block<br>
+        &emsp;public Vector2 Position;<br>
+        &emsp;public Vector2 Scale;<br>
+        &emsp;public Image Texture;<br>
+        &emsp;Graphics _GFX;<br>
+        &emsp;public int _IndexTexture;<br>
+        &emsp;public string Mod, code;<br>
+        &emsp;public string BlockModName;<br>
+        &emsp;public Block(ref Graphics _Parent, Image _texture, Point _pos, int index, string _mod, string blockName, string _code)<br>
+        &emsp;{<br>
+            &emsp;&emsp;BlockModName = blockName;<br>
+            &emsp;&emsp;Mod = _mod;<br>
+            &emsp;&emsp;Position = new Vector2(_pos.X, _pos.Y);<br>
+            &emsp;&emsp;Texture = _texture;<br>
+            &emsp;&emsp;_IndexTexture = index;<br>
+            &emsp;&emsp;_GFX = _Parent; draw();<br>
+            &emsp;&emsp;code = _code;<br>
+            &emsp;}<br>
+            &emsp;public void Execute(string code)<br>
+        &emsp;{<br>
+            &emsp;&emsp;if (code != null && code !="")<br>
+            &emsp;&emsp;{<br>
+                &emsp;&emsp;CharpExecuter cs;<br>
+                &emsp;&emsp;cs = new CharpExecuter(new ExecuteLogHandler(delegate { }));<br>
+                &emsp;&emsp;cs.FormatSources(code);<br>
+                &emsp;&emsp;cs.Execute();<br>
+                &emsp;&emsp;}<br>
+                &emsp;}<br>
+                &emsp;public void draw() { _GFX.DrawImage(Texture, Position.x, Position.y); }<br>
+    <br>
+    class Inventar<br>
+        &emsp;public string ModName = "";<br>
+        &emsp;public string BlockName = "";<br>
+        &emsp;public Image _Texture;<br>
+        &emsp;public string code;<br>
+        <br>
+    class ModG<br>
+        &emsp;public string ModName = "";<br>
+        &emsp;public Image _Texture;<br>
+        &emsp;public string BlockName = "";<br>
+        &emsp;public string code;<br>
+    </div>
+    <div style="text-align: center; align-self: flex-end; padding-top: 50px; display: list-item; font-size: 18px;">
+        Дополнительная информация:
+        <br>
+        <a href="https://drive.google.com/file/d/1vT4LMmIAFeQCpqWxYpMe1ceqnEcoMRGB/view">Скачать _2Dblock.cs</a><br>
+        <a href="https://www.sites.google.com/view/tobish-inc/lightbox-develop/ltml-builder-api">Tobish Site | APIs</a>
+    </div>
+</body>
+</html>
