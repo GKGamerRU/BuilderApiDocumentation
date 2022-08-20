@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Builder Api documentation</title>
+</head>
+<body>
+    <div class="Title" >
+        <a href="index.html">Builder API</a>
+    </div>
+    <div class="InfoBlock"> 
+        <h1>Алгоритм инициализации скриптов.</h1>
+        <h3>При инициализации игры</h3>
+        TempMod используется для временного хранения мода, поэтому не советуем использовать его!
+        <br><br>
+        <u>Сначала инициализируются скрипты из папки мода:</u><br>
+        Происходит загрузка скрипта script.cs<br>
+        Происходит загрузка скрипта OnMapRedraw.cs<br>
+        Происходит загрузка скрипта OnGlobalTimerTick.cs<br><br>
+
+        <u>Затем инициализируются скрипты из папки блока:</u><br>
+        Происходит загрузка скрипта script.cs<br>
+        Происходит загрузка скрипта OnSelect.cs<br>
+        Происходит загрузка скрипта OnRedraw.cs<br>
+        Происходит загрузка скрипта OnDestroy.cs<br>
+        Происходит загрузка скрипта OnClick.cs<br><br>
+
+        Происходит инициализация script.cs, после загрузки всех предыдущих скриптов.<br>
+        Начинается выполнение OnGlobalTimerTick.cs<br>
+
+        <br><br>
+        <h3>При Перерисовке</h3>
+        Приостанавливается выполнение OnGlobalTimerTick.cs<br>
+        Происходит выполнение скрипта OnRedraw.cs<br>
+        Происходит выполнение скрипта OnMapRedraw.cs после завершения перерисовки<br>
+        Возобновляется выполнение OnGlobalTimerTick.cs<br>
+
+        <br><br>
+        <h3>При загрузке карты</h3>
+        Приостанавливается выполнение OnGlobalTimerTick.cs<br>
+        Происходит выполнение скрипта OnRedraw.cs<br>
+        Происходит выполнение скрипта OnMapRedraw.cs после завершения перерисовки<br>
+        Возобновляется выполнение OnGlobalTimerTick.cs<br>
+        
+    </div>
+    <div style="text-align: center; align-self: flex-end; padding-top: 50px; display: list-item; font-size: 18px;">
+        Дополнительная информация:
+        <br>
+        <a href="https://drive.google.com/file/d/1vT4LMmIAFeQCpqWxYpMe1ceqnEcoMRGB/view">Скачать _2Dblock.cs</a><br>
+        <a href="https://www.sites.google.com/view/tobish-inc/lightbox-develop/ltml-builder-api">Tobish Site | APIs</a>
+    </div>
+</body>
+</html>

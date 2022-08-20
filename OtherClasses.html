@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Builder Api documentation</title>
+</head>
+<body>
+    <div class="Title" >
+        <a href="index.html">Builder API</a>
+    </div>
+    <div class="InfoBlock"> 
+        <h1>Classes</h1>
+        <h3>AlertForm - вывод сообщения пользователю.</h3>
+        arguments: (string content, string label = "Lightbox Launcher", Image Icon = null, Action _onSubmit = null, Action _onAbort = null)<br><br>
+        <b>Инициализация класса выглядит так: new AlertForm("Привет");<br>
+        Также можно получить форму вот так: Form MyObj = new AlertForm("Привет");<br>
+        <img src="img/AlertFormExample.png" />
+        <br></b>
+        Аргументы:<br>
+        content - что выведет форма.<br>
+        label - Заголовок формы, но вводить параметр необязательно.<br>
+        Icon = иконка формы.<br>
+        _onSubmit - действие при нажатии кнопки 'ОК' или 'Да'.<br>
+        _onAbort - действие при нажатии 'Нет'.<br>
+
+    </div>
+    <div style="text-align: center; align-self: flex-end; padding-top: 50px; display: list-item; font-size: 18px;">
+        Дополнительная информация:
+        <br>
+        <a href="https://drive.google.com/file/d/1vT4LMmIAFeQCpqWxYpMe1ceqnEcoMRGB/view">Скачать _2Dblock.cs</a><br>
+        <a href="https://www.sites.google.com/view/tobish-inc/lightbox-develop/ltml-builder-api">Tobish Site | APIs</a>
+    </div>
+</body>
+</html>
