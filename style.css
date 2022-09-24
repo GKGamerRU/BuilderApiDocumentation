@@ -87,7 +87,7 @@ embed{
     letter-spacing: 3px;
 }
 .Menu{
-    align-content: center;
+    align-content: center; 
     text-align: center;
     display: list-item;
     margin: 50px;
