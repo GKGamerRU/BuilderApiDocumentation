@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Builder Api documentation</title>
+</head>
+<body>
+    <div class="Title" >
+        <a href="index.html">Builder API</a>
+    </div>
+    <div class="InfoBlock"> 
+        <div class="ClassBlock"> 
+        <h1>Custom & Global properties</h1>
+        Это подходит для блока и мода. В блоке при сохранении карты свойства сохраняются, в отличии от мода.<br>
+        Свойства в Global хранятся в виде object, а в Custom в виде string листа.<br>
+        Custom Property - Block<br>
+        Global Property - Mod<br>
+
+        <h2>Для мода (Global)</h2>
+        SetProperty(string key, object content) - ставит свойство.<br>
+        GetProperty(string key) - возвращает свойство object.<br><br>
+
+        <h2>Для Блока (Custom)</h2>
+        SetProperty(string key, string content) - ставит свойство.<br>
+        GetProperty(string key) - возвращает свойство string.<br><br>
+
+        <h2>Если вы пытаетесь получить свойство, которого нет, то возвращается null!</h2>
+        </div>
+        
+        <div class="ClassBlock"> 
+        <h1>Resource System</h1>
+        В каждом моде есть ресурсы благодаря новой системе. Для нее надо создать в папке мода папку "Resources"<br>
+        Также блока "Resources" не может быть, так как это название зарезервировано для этой системы<br>
+
+        <h2>Методы</h2>
+        GetTextFromResources(string FileName) - Возвращает string из файла<br>
+        GetImageFromResources(string FileName) - Возвращает Image из файла<br>
+        GetBytesFromResources(string FileName) - Возвращает byte[] из файла<br>
+        GetSoundFromResources(string FileName) - Возвращает SoundPlayer со звуком из WAV файла<br>
+        SetTextToResources(string FileName, string content) - Сохраняет string данные в файл<br>
+        SetImageToResources(string FileName, Image content) - Сохраняет Image в файл<br>
+        SetBytesToResources(string FileName, byte[] content) - Сохраняет byte[] в файл<br><br>
+
+        <h2>Если вы пытаетесь получить свойство, которого нет, то возвращается null!</h2>
+        </div>
+    </div>
+</body>
+</html>

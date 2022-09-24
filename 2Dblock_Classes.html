@@ -12,15 +12,54 @@
         <a href="index.html">Builder API</a>
     </div>
     <div class="InfoBlock"> 
-        <h1>Classes</h1>
+        <h1>_2Dblock Classes</h1>
         <h3>Для того, чтобы понимать, что за классы в апи, вот список и их поля:</h3>
-        <a href="https://drive.google.com/file/d/1vT4LMmIAFeQCpqWxYpMe1ceqnEcoMRGB/view">Скачать _2Dblock.cs</a><br>
-    </div>
-    <div style="text-align: center; align-self: flex-end; padding-top: 50px; display: list-item; font-size: 18px;">
-        Дополнительная информация:
-        <br>
-        <a href="https://drive.google.com/file/d/1vT4LMmIAFeQCpqWxYpMe1ceqnEcoMRGB/view">Скачать _2Dblock.cs</a><br>
-        <a href="https://www.sites.google.com/view/tobish-inc/lightbox-develop/ltml-builder-api">Tobish Site | APIs</a>
+
+        <div class="ClassBlock"> 
+            <h1>Block</h1>
+            OnRedraw - Происходит при перерисовке блока. <u>(Action)</u><br>
+            OnDestroy - Происходит при уничтожении блока. <u>(Action)</u><br>
+            OnClick - Происходит при нажатии на блок. <u>(Action)</u><br><br>
+
+            Position - Позиция блока. <u>(Vector2)</u><br>
+            Scale - Размер блока. <u>(Vector2)</u><br>
+            Texture - текстура блока. <u>(Image)</u><br>
+            <Red>(Устарело)</Red> _IndexTexture - Индекс текстуры встроенного блока. <u>(int)</u><br>
+            Mod - Мод, которому блок принадлежит. <u>(ModManager.Mod)</u><br>
+            BlockMod - Паттерн блока. <u>(ModG)</u><br>
+            IsInteractive - Возвращает true, если OnClick не равен null. <u>(bool)</u><br><br>
+
+            Properties - CustomProperties <u>(Dictionary|string, string|)</u><br>
+
+            <br>
+            Execute(string code) - Выполняет скрипт из текста <u>(Method)</u><br>
+            draw() - Нарисовать блок на сцене <u>(Method)</u><br><br>
+
+            <div class="ClassBlock">Подробнее об эвентах в <a href="TypeOfScripts.html">TypeOfScripts</a></div>
+            <div class="ClassBlock">Данный класс способен работать с Properties: <a href="Properties&Resource.html">Properties&Resource</a></div>
+        </div>
+        <div class="ClassBlock"> 
+            <h1>ModG</h1>
+            OnBlockPlaced - срабатывает при появлении блока <u>(Action)</u><br>
+            OnDestroyed - Срабатывает перед уничтожением блока <u>(Action)</u><br>
+            OnBlockSelect - Срабатывает при выборе блока в инвентаре <u>(Action)</u><br>
+            OnRedraw - Происходит при перерисовке блока <u>(Action)</u><br>
+            OnClick - Срабатывает при клике на блок <u>(Action)</u><br><br>
+        
+            Mod - мод, которому блок принадлежит <u>(ModManager.Mod)</u><br>
+            ModName - Имя мода <u>(string)</u><br>
+            _Texture - Текстура блока <u>(Image)</u><br>
+            BlockName - Имя блока <u>(string)</u><br><br>
+
+            <div class="ClassBlock">Подробнее об эвентах в <a href="TypeOfScripts.html">TypeOfScripts</a></div>
+        </div>
+        <div class="ClassBlock"> 
+            <h1>Inventar</h1>
+            MyMod - Паттерн блока <u>(ModG)</u><br>
+            ModName - Имя мода <u>(string)</u><br>
+            BlockName - Имя блока <u>(string)</u><br>
+            _Texture - Текстура блока <u>(Image)</u>
+        </div>
     </div>
 </body>
 </html>

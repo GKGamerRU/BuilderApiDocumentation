@@ -13,6 +13,7 @@
     </div>
     <div class="InfoBlock"> 
         <h1>Classes</h1>
+        <div class="ClassBlock">
         <h3>AlertForm - вывод сообщения пользователю.</h3>
         arguments: (string content, string label = "Lightbox Launcher", Image Icon = null, Action _onSubmit = null, Action _onAbort = null)<br><br>
         <b>Инициализация класса выглядит так: new AlertForm("Привет");<br>
@@ -24,14 +25,49 @@
         label - Заголовок формы, но вводить параметр необязательно.<br>
         Icon = иконка формы.<br>
         _onSubmit - действие при нажатии кнопки 'ОК' или 'Да'.<br>
-        _onAbort - действие при нажатии 'Нет'.<br>
+        _onAbort - действие при нажатии 'Нет'.<br><br>
+        </div>
 
-    </div>
-    <div style="text-align: center; align-self: flex-end; padding-top: 50px; display: list-item; font-size: 18px;">
-        Дополнительная информация:
-        <br>
-        <a href="https://drive.google.com/file/d/1vT4LMmIAFeQCpqWxYpMe1ceqnEcoMRGB/view">Скачать _2Dblock.cs</a><br>
-        <a href="https://www.sites.google.com/view/tobish-inc/lightbox-develop/ltml-builder-api">Tobish Site | APIs</a>
+        <div class="ClassBlock">
+        <h3>AboutMod - Форма информации мода.</h3>
+        arguments: ()<br><br>
+        <b>Инициализация класса выглядит так: new AboutMod();<br>
+        Также можно получить форму вот так: var MyObj = new AboutMod();<br>
+        <img src="img/AboutModExample.png" />
+        <br></b>
+        Методы:<br>
+        SetName(string text) - Ставит Имя мода.<br>
+        SetVersion(string text) - Ставит версию мода.<br>
+        SetLogotype(string text) - Ставит изображение по пути к файлу.<br>
+        SetLogotype(Image content) - Ставит изображение.<br>
+
+        SetHeadColor(Color) - Ставит цвет шапки.<br>
+        SetHeadColor(string text) - Ставит цвет шапки по имени цвета.<br>
+        SetHeadColor(int r, int g, int b, int a) - Ставит цвет шапки.<br>
+
+        SetBackColor(Color) - Ставит цвет формы.<br>
+        SetBackColor(string text) - Ставит цвет формы по имени цвета.<br>
+        SetBackColor(int r, int g, int b, int a) - Ставит цвет формы.<br>
+
+        AddPanel(int height = 25) - Добавляет новую панель в форму.<br>
+        AddButton(string text, int width = 350, int fontSize = 12, string fontFamily = "Segoe UI", string colorName = "black")
+        - Добавляет новую кнопку в форму.<br>
+        AddLabel(string text, int fontSize = 12, string fontFamily = "Segoe UI", string colorName = "black") - Добавляет новый текст в форму.<br>
+        AddToogle(string text, bool content, int fontSize = 12, string fontFamily = "Segoe UI", string colorName = "black")
+        - Добавляет новый toogle в форму.<br>
+        AddCustomControl(Control custom) - Добавляет в форму переданный компонент.<br><br>
+
+        Поля:<br>
+        ClearProperties - Button "Сбросить настройки".<br>
+        </div>
+
+        <div class="ClassBlock">
+            <h3>LBConsole - Консоль и дебаг.</h3>
+            arguments: ()<br><br>
+
+            Методы:<br>
+            AddString(string content) - Добавляет строку в список консоли<br>
+        </div>
     </div>
 </body>
 </html>

@@ -12,8 +12,8 @@
         <a href="index.html">Builder API</a>
     </div>
     <div class="InfoBlock"> 
-        <h1>Methods</h1>
-        <h3><br></h3>
+        <h1>_2Dblock Methods</h1>
+        <div class="ClassBlock">
         	GetBlocks() - Получает все поставленные блоки. <u>(List of Block)</u><br>
 
             GetBlockByIDTexture(int id) - можно получить массив блоков по указанному id текстуры. <u>(List of Block)</u><br>
@@ -44,13 +44,18 @@
         
             GetCurrentModInfo() - Получает информацию о моде в выбранном в инвентаре блоке. <u>(string)</u><br>
 
+            Destroy(int x, int y) - Уничтожает блок по заданной координате. <br>
+
+            Destroy(Block obj) - Уничтожает выбранный блок. <br>
+
+            DestroyAll() - Очищает карту от блоков. <br>
+
+            TryBuild(int x, int y, ModG pattern) - Ставит блок, если координата не занята. <u>(Block)</u><br>
+
+            Build(int x, int y, ModG pattern) - Ставит Блок из паттерна в заданную координату даже если там уже стоит блок. <u>(Block)</u><br>
+
             Render() - Рендерит, то есть применяет перерисовку всех объектов.<br>
-    </div>
-    <div style="text-align: center; align-self: flex-end; padding-top: 50px; display: list-item; font-size: 18px;">
-        Дополнительная информация:
-        <br>
-        <a href="https://drive.google.com/file/d/1vT4LMmIAFeQCpqWxYpMe1ceqnEcoMRGB/view">Скачать _2Dblock.cs</a><br>
-        <a href="https://www.sites.google.com/view/tobish-inc/lightbox-develop/ltml-builder-api">Tobish Site | APIs</a>
+        </div>
     </div>
 </body>
 </html>

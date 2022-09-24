@@ -104,6 +104,34 @@ embed{
 .InfoBlock{
     display: block;
     padding: 50px;
-    font-family: 'Courier New', Courier, monospace, Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Courier, monospace, Tahoma, Geneva, Verdana, sans-serif;
     font-size: 18px;
+}
+
+.ClassBlock{
+    background-color: rgba(218, 218, 218, 0.548);
+    border-radius: 25px;
+    border: 3px solid rgba(158, 158, 158, 0.096); 
+    border-width: 3px;
+
+    display: block;
+    margin: 10px;
+    padding: 20px;
+    font-family: 'Segoe UI', Courier, monospace, Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 18px;
+    filter: drop-shadow(4px 4px 7px rgb(179, 179, 179));
+}
+.ClassBlock :hover{
+    background-color: rgba(161, 183, 216, 0.548);
+    transition: 100ms;
+}
+
+.Discord {
+    border-radius: 15px;
+    border: 3px solid rgba(81, 128, 230, 0.322);
+    filter: drop-shadow(4px 4px 22px rgb(179, 179, 179));
+}
+
+Red{
+    color: rgb(255, 75, 75);
 }
