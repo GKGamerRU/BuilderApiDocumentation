@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using LB_Launcher.Modules;
 using CharpShell;
 using System.Media;
+using System.Drawing.Imaging;
+using Newtonsoft.Json;
 
 namespace LB_Launcher.Modules
 {
@@ -27,7 +29,7 @@ namespace LB_Launcher.Modules
         }
 
         public static Image[] _TextureLibrary =
-             { LB_Launcher.Properties.Resources._0,
+      { LB_Launcher.Properties.Resources._0,
         LB_Launcher.Properties.Resources._1,
         LB_Launcher.Properties.Resources._2,
         LB_Launcher.Properties.Resources._3,
@@ -53,11 +55,11 @@ namespace LB_Launcher.Modules
             { @"\OnAbout.cs","LB_Launcher.Modules.ModManager.Modded.OnAbout = delegate(ModManager.Mod obj)" }
         };
         static string[,] methodBlocksMod = {
-            { @"\script.cs", "LB_Launcher.Modules.ModManager.TempMod.OnBlockPlaced = delegate(Block obj)" },
-            { @"\OnSelect.cs", "LB_Launcher.Modules.ModManager.TempMod.OnBlockSelect = delegate(ModG obj)" },
-            { @"\OnRedraw.cs", "LB_Launcher.Modules.ModManager.TempMod.OnRedraw = delegate(Block obj)" },
-            { @"\OnDestroy.cs", "LB_Launcher.Modules.ModManager.TempMod.OnDestroyed = delegate(Block obj)" },
-            { @"\OnClick.cs", "LB_Launcher.Modules.ModManager.TempMod.OnClick = delegate(Block obj, int MouseClick)" }
+            { @"\script.cs", "LB_Launcher.Modules.ModManager.Modded.Blocks[(num)].OnBlockPlaced = delegate(Block obj)" },
+            { @"\OnSelect.cs", "LB_Launcher.Modules.ModManager.Modded.Blocks[(num)].OnBlockSelect = delegate(ModG obj)" },
+            { @"\OnRedraw.cs", "LB_Launcher.Modules.ModManager.Modded.Blocks[(num)].OnRedraw = delegate(Block obj)" },
+            { @"\OnDestroy.cs", "LB_Launcher.Modules.ModManager.Modded.Blocks[(num)].OnDestroyed = delegate(Block obj)" },
+            { @"\OnClick.cs", "LB_Launcher.Modules.ModManager.Modded.Blocks[(num)].OnClick = delegate(Block obj, int MouseClick)" }
         };
 
         public static Mod Modded;
@@ -73,54 +75,68 @@ namespace LB_Launcher.Modules
             LBConsole.AddString("[Builder API] Загрузка информации о модах...");
             Mods.Clear();
             LBConsole.AddString("[Builder API] Список модов очищен!");
+            
             foreach (DirectoryInfo Mod in cDirs)
             {
                 await Task.Run(() => {
                     Mod ModedFile = new Mod(Mod.Name);
                     Modded = ModedFile;
+                    ModedFile.Path = Mod.FullName;
+                    ModedFile.ResourcePath = Mod.FullName + @"\Resources";
+                    ModedFile.LoadProperties();
 
+                    CharpExecuter cs = new CharpExecuter(new ExecuteLogHandler(delegate { }));
+                    string globalScript = "";
                     for (int i = 0; i < methodListMod.GetUpperBound(0) + 1; i++)
                     {
                         if (File.Exists(Mod.FullName + methodListMod[i, 0]))
                         {
-                            CharpExecuter cs;
-                            cs = new CharpExecuter(new ExecuteLogHandler(delegate { }));
                             string code = File.ReadAllText(Mod.FullName + methodListMod[i, 0]);
-                            cs.FormatSources(methodListMod[i, 1] + " { " + code + " };");
-
-                            cs.Execute();
+                            globalScript += methodListMod[i, 1] + " { " + code + " };\n";
                         }
                     }
-                    
+                    cs.FormatSources(globalScript);
+                    cs.Execute();
+
                     Mods.Add(ModedFile);
-                    ModedFile.Path = Mod.FullName;
-                    ModedFile.ResourcePath = Mod.FullName + @"\Resources";
 
                     DirectoryInfo[] Blocks = new DirectoryInfo(Application.StartupPath + @"\2Dbuilder\mods\" + Mod.Name).GetDirectories();
+
+                    CharpExecuter cs2 = new CharpExecuter(new ExecuteLogHandler(delegate { }));
+                    StringBuilder blockScript = new StringBuilder("");
+                    int blockCounter = 0;
                     foreach (DirectoryInfo block in Blocks)
                     {
                         if (block.Name == "Resources") continue;
 
-                        Image _texture = Image.FromFile(block.FullName + @"\texture.png");
+                        Bitmap _texture = (Bitmap)Image.FromFile(block.FullName + @"\texture.png");
                         ModG newMod = new ModG();
                         TempMod = newMod;
-                        newMod.ModName = Mod.Name; newMod._Texture = _texture;
+                        newMod.ModName = Mod.Name;
+
+                        Bitmap temp = new Bitmap(_texture.Width, _texture.Height, PixelFormat.Format32bppPArgb);
+                        var g = Graphics.FromImage(temp);
+                        g.DrawImageUnscaled(_texture,0,0);
+
+                        newMod._Texture = temp;
+
                         newMod.BlockName = block.Name;
                         newMod.Mod = ModedFile;
+                        
                         for (int i = 0; i < methodBlocksMod.GetUpperBound(0) + 1; i++)
                         {
                             if (File.Exists(block.FullName + methodBlocksMod[i, 0]))
                             {
-                                CharpExecuter cs;
-                                cs = new CharpExecuter(new ExecuteLogHandler(delegate { }));
                                 string code = File.ReadAllText(block.FullName + methodBlocksMod[i, 0]);
-                                cs.FormatSources(methodBlocksMod[i, 1] + " { " + code + " };");
-                                cs.Execute();
+                                int modNum = blockCounter;
+                                blockScript.Append(methodBlocksMod[i, 1].Replace("(num)", modNum.ToString()) + " { " + code + " };");
                             }
                         }
                         ModedFile.Blocks.Add(newMod);
+                        blockCounter++;
                     }
-
+                    cs2.FormatSources(blockScript.ToString());
+                    cs2.Execute();
                 });
                 LBConsole.AddString($"[Builder API] {Mod.Name} Инициализирован.");
             }
@@ -150,6 +166,45 @@ namespace LB_Launcher.Modules
             }
 
             Dictionary<string,object> Properties = new Dictionary<string, object>();
+            public void SaveProperties()
+            {
+                Dictionary<string, object> temp = new Dictionary<string, object>();
+                foreach (var collection in Properties)
+                {
+                    if (collection.Key[0] == '@') temp.Add(collection.Key, collection.Value);
+                }
+                if (temp.Keys.Count <= 0) return;
+
+                var serializationSettings = new JsonSerializerSettings();
+                serializationSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                serializationSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+                serializationSettings.TypeNameHandling = TypeNameHandling.Auto;
+                
+                string map = JsonConvert.SerializeObject(temp, serializationSettings);
+                string path = System.IO.Path.Combine(Path, "GlobalProperties.json");
+                if (File.Exists(path))
+                { File.Delete(path); }
+                
+                try
+                {
+                    File.WriteAllText(path, map);
+                }
+                catch { }
+            }
+            public void LoadProperties()
+            {
+                string path = System.IO.Path.Combine(Path, "GlobalProperties.json");
+                if (File.Exists(path))
+                {
+                    var serializationSettings = new JsonSerializerSettings();
+                    serializationSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    serializationSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+                    serializationSettings.TypeNameHandling = TypeNameHandling.Auto;
+                    serializationSettings.MissingMemberHandling = MissingMemberHandling.Ignore;
+
+                    JsonConvert.PopulateObject(File.ReadAllText(path), Properties, serializationSettings);
+                }
+            }
 
             public object GetProperty(string name)
             {

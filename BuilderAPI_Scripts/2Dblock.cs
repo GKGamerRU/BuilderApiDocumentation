@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static LB_Launcher.Builder2D;
 using System.Windows.Forms;
 using System.Drawing;
 using CharpShell;
 using LB_Launcher.Modules;
+using LB_Launcher.Builder;
 
 namespace LB_Launcher
 {
     public static class _2Dblock
     {
-        public const string VERSION = "2.0";
+        public const string VERSION = "2.1";
         public static List<Block> GetBlocks() { return Engine.Cubes; }
         public static List<Block> GetBlockByIDTexture(int id)
         {
@@ -27,19 +26,19 @@ namespace LB_Launcher
         public static Block GetBlockByID(int id)
         { return Engine.Cubes[id]; }
         public static Block GetBlockByName(string name)
-        { foreach (Block cube in Engine.Cubes) { if (cube.BlockMod.BlockName == name) return cube; }; return null; }
+        { foreach (Block cube in Engine.Cubes) { if (cube.BlockMod != null && cube.BlockMod.BlockName == name) return cube; }; return null; }
         public static IEnumerable<Block> GetBlockByNameArray(string name)
-        { return Engine.Cubes.Where(block => block.BlockMod.BlockName == name); }
+        { return Engine.Cubes.Where(block => block.BlockMod != null && block.BlockMod.BlockName == name); }
         public static IEnumerable<Block> GetBlockByModNameArray(string Modname)
-        { return Engine.Cubes.Where(block => block.Mod.Name == Modname); }
+        { return Engine.Cubes.Where(block => block.Mod != null && block.Mod.Name == Modname); }
         public static Panel PaintTable() { return (Panel)thisForm.Controls.Find("panel2", true).FirstOrDefault(); }
         public static Panel LoadPanel() { return (Panel)thisForm.Controls.Find("panel6", true).FirstOrDefault(); }
         public static Form Form() { return thisForm; }
-        public static string GetCurrentModInfo() { return SelectedInv.BlockName + "\n" + SelectedInv.ModName; }
+        public static string GetCurrentModInfo() { return thisForm.SlotBar.SelectedInv.BlockName + "\n" + thisForm.SlotBar.SelectedInv.ModName; }
         public static Graphics GetGFX() { return Engine.gfx; }
         public static Block GetThisBlock() { return Engine.Cubes.LastOrDefault(); }
         public static Image GetBackground() { return Engine.CurrentGround; }
-        public static Inventar GetSelectedInventar() { return Builder2D.SelectedInv; }
+        public static Inventar GetSelectedInventar() { return thisForm.SlotBar.SelectedInv; }
         public static Control GetCounter() { return thisForm.Controls.Find("counterblock", true).FirstOrDefault(); }
         public static Block TryBuild(int x, int y, ModG pattern)
         {
@@ -64,19 +63,11 @@ namespace LB_Launcher
             var gfx = _2Dblock.GetGFX();
             Point timedBlock = new Point(obj.Position.x,obj.Position.y);
 
-            if (CurrentGround != null)
-            {
-                obj.Destroy();
-                Cubes.Remove(obj);
-                gfx.FillRectangle(SystemBrushes.ActiveCaption, timedBlock.X, timedBlock.Y, obj.Scale.x, obj.Scale.y);
-                gfx.DrawImage(CurrentGround, timedBlock);
-            }
-            else
-            {
-                obj.Destroy();
-                Cubes.Remove(obj);
-                gfx.FillRectangle(SystemBrushes.ActiveCaption, timedBlock.X, timedBlock.Y, obj.Scale.x, obj.Scale.y);
-            }
+            obj.Destroy();
+            Cubes.Remove(obj);
+            gfx.FillRectangle(SystemBrushes.ActiveCaption, timedBlock.X, timedBlock.Y, obj.Scale.x, obj.Scale.y);
+
+            if (CurrentGround != null) gfx.DrawImage(CurrentGround, timedBlock); 
 
             Render();
         }
@@ -92,27 +83,20 @@ namespace LB_Launcher
                 if (block == null) continue;
                 if (timedBlock == new Point(block.Position.x, block.Position.y))
                 {
+                    block.Destroy();
+                    Cubes.Remove(block);
+                    gfx.FillRectangle(SystemBrushes.ActiveCaption, timedBlock.X, timedBlock.Y, block.Scale.x, block.Scale.y);
                     if (CurrentGround != null)
                     {
-                        block.Destroy();
-                        Cubes.Remove(block);
-                        gfx.FillRectangle(SystemBrushes.ActiveCaption, timedBlock.X, timedBlock.Y, block.Scale.x, block.Scale.y);
                         gfx.DrawImage(CurrentGround, timedBlock);
-                        break;
                     }
-                    else
-                    {
-                        block.Destroy();
-                        Cubes.Remove(block);
-                        gfx.FillRectangle(SystemBrushes.ActiveCaption, timedBlock.X, timedBlock.Y, block.Scale.x, block.Scale.y);
-                        break;
-                    }
+                    break;
                 }
             }
         }
         public static void DestroyAll()
         {
-            Builder2D.thisForm.Erase();
+            thisForm.Erase();
         }
         public static Block Build(int x, int y, ModG pattern)
         {
@@ -126,20 +110,28 @@ namespace LB_Launcher
             return newel;
         }
         public static void Render() { Builder2D.Engine.ApplyRender(); }
+
+        public static ToolButton AddTool(Bitmap icon, Action onSelect, Action onDeselect) => thisForm.BuilderToolBar.AddTool(icon, onSelect, onDeselect);
+        public static void RemoveTool(ToolButton tool) => thisForm.BuilderToolBar.RemoveTool(tool);
     }
     public class Block
     {
         public Action<Block> OnRedraw = delegate(Block obj) { };
         public Action<Block> OnDestroy = delegate(Block obj) { };
         public Action<Block, int> OnClick = delegate (Block obj, int click) { };
+
         public Vector2 Position;
         public Vector2 Scale;
         public Image Texture;
+
         Graphics _GFX; 
         public int _IndexTexture;
+
         public ModManager.Mod Mod;
         public ModG BlockMod;
+
         public bool IsInteractive = false;
+
         public Block(ref Graphics _Parent, Image _texture, Point _pos, int index, ModManager.Mod _mod, ModG blockName, Action<Block> redraw = null, Action<Block> destroy = null, Action<Block, int> click = null)
         {
             BlockMod = blockName;
@@ -171,7 +163,7 @@ namespace LB_Launcher
             if (e.Button == MouseButtons.Left) index = 0;
             if (e.Button == MouseButtons.Middle) index = 1;
             if (e.Button == MouseButtons.Right) index = 2;
-            OnClick.Invoke(this, index);
+            OnClick?.Invoke(this, index);
         }
 
         public Dictionary<string, string> Properties = new Dictionary<string, string>();
@@ -180,19 +172,22 @@ namespace LB_Launcher
         {
             if (Properties.ContainsKey(name))
             {
-                return Properties[name];
+                return Properties[name].Replace("(IpThe)", ":").Replace("(IjThe)", "|");
             }
             return null;
         }
         public void SetProperty(string name, string value)
         {
+            string temp = value.Replace(":", "(IpThe)").Replace("|", "(IjThe)");
+            if (name == "Description") IsInteractive = true;
+
             if (Properties.ContainsKey(name))
             {
-                Properties[name] = value;
+                Properties[name] = temp;
             }
             else
             {
-                Properties.Add(name, value);
+                Properties.Add(name, temp);
             }
         }
     }
@@ -201,7 +196,7 @@ namespace LB_Launcher
         public ModG MyMod;
         public string ModName = "";
         public string BlockName = "";
-        public Image _Texture;
+        public Bitmap _Texture;
     }
     public class ModG
     {
@@ -213,7 +208,7 @@ namespace LB_Launcher
 
         public ModManager.Mod Mod;
         public string ModName = "";
-        public Image _Texture;
+        public Bitmap _Texture;
         public string BlockName = "";
     }
 }
