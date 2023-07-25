@@ -66,7 +66,17 @@
             arguments: ()<br><br>
 
             Методы:<br>
+            Execute(string command) - Выполняет команду<br>
             AddString(string content) - Добавляет строку в список консоли<br>
+            AddCommand(char symbol, string name, string description, Action|string[]| command) - Добавляет команду в список консоли<br>
+        </div>
+        <div class="ClassBlock">
+            <h3>ToolButton - Кнопка инструмента.</h3>
+
+            Поля:<br>
+            Bitmap Image { get; } - Текстура кнопки<br>
+            Action OnClick { get; } - Событие, происходящее при выборе инструмента<br>
+            Action OnDeselect { get; } - Событие, происходящее при выборе другого инструмента<br>
         </div>
     </div>
 </body>

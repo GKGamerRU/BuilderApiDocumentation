@@ -13,21 +13,33 @@
     </div>
     <div class="InfoBlock"> 
         <div class="ClassBlock"> 
-        <h1>Custom & Global properties</h1>
-        Это подходит для блока и мода. В блоке при сохранении карты свойства сохраняются, в отличии от мода.<br>
-        Свойства в Global хранятся в виде object, а в Custom в виде string листа.<br>
-        Custom Property - Block<br>
-        Global Property - Mod<br>
+            <h1>Custom & Global properties</h1>
+            Это подходит для блока и мода. В блоке при сохранении карты свойства сохраняются, в отличии от мода.<br>
+            Свойства в Global хранятся в виде object, а в Custom в виде string листа.<br>
+            Custom Property - Block<br>
+            Global Property - Mod<br>
 
-        <h2>Для мода (Global)</h2>
-        SetProperty(string key, object content) - ставит свойство.<br>
-        GetProperty(string key) - возвращает свойство object.<br><br>
+            <div class="ClassBlock">
+                <h2>Для мода (Global)</h2>
+                SetProperty(string key, object content) - ставит свойство.<br>
+                GetProperty(string key) - возвращает свойство object.<br><br>
+            
+                <Red>Внимание!</Red><br>
+                Если вы хотите, чтобы свойства или настройки вашего мода сохранялись и загружались,
+                то добавляйте символ @ в начало названия, к примеру "@Fov"
+            </div>
 
-        <h2>Для Блока (Custom)</h2>
-        SetProperty(string key, string content) - ставит свойство.<br>
-        GetProperty(string key) - возвращает свойство string.<br><br>
+            <div class="ClassBlock">
+                <h2>Для Блока (Custom)</h2>
+                SetProperty(string key, string content) - ставит свойство.<br>
+                GetProperty(string key) - возвращает свойство string.<br><br>
+            
+                <Red>Внимание!</Red><br>
+                Если вы хотите, чтобы при наведении курсора на блок показывалось его описание,
+                то добавьте свойство Description и его значение
+            </div>
 
-        <h2>Если вы пытаетесь получить свойство, которого нет, то возвращается null!</h2>
+            <h2>Если вы пытаетесь получить свойство, которого нет, то возвращается null!</h2>
         </div>
         
         <div class="ClassBlock"> 
